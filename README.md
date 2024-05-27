@@ -1,0 +1,1 @@
+# mobile_autotest_sample
