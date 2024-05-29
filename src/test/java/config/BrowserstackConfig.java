@@ -3,22 +3,12 @@ package config;
 import org.aeonbits.owner.Config;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
-@org.aeonbits.owner.Config.Sources(
-        {"classpath:${env}.properties"})
+@Config.Sources({
+        "classpath:configs/browserstack.properties",
+        "classpath:configs/${platform}.properties"
+})
 
 public interface BrowserstackConfig extends org.aeonbits.owner.Config {
-
-    @Key("login")
-    String login();
-
-    @Key("password")
-    String password();
-
-    @Key("baseURL")
-    String baseUrl();
-
-    @Key("appURL")
-    String appUrl();
 
     @Key("device")
     String device();
@@ -34,4 +24,13 @@ public interface BrowserstackConfig extends org.aeonbits.owner.Config {
 
     @Key("name")
     String testName();
+
+    @Key("baseURL")
+    String baseUrl();
+
+    @Key("app")
+    String appUrl();
+
+    @Key("session")
+    String sessionUrl();
 }

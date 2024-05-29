@@ -3,6 +3,7 @@ package drivers;
 import com.codeborne.selenide.WebDriverProvider;
 import config.BrowserstackConfig;
 import config.Config;
+import enums.PropertiesEnum;
 import lombok.SneakyThrows;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Capabilities;
@@ -19,8 +20,10 @@ public class BrowserstackDriver implements WebDriverProvider {
     private static final config.Config config = ConfigFactory.create(Config.class);
     private static BrowserstackConfig browserstackConfig;
 
-    BrowserstackDriver(){
-        ConfigFactory.setProperty("env",config.env());
+    BrowserstackDriver() {
+        ConfigFactory.setProperty(
+                PropertiesEnum.PLATFORM.getValue(),
+                System.getProperty(PropertiesEnum.PLATFORM.getValue(), config.env()));
         browserstackConfig = ConfigFactory.create(BrowserstackConfig.class);
     }
 
@@ -33,8 +36,8 @@ public class BrowserstackDriver implements WebDriverProvider {
         mutableCapabilities.merge(capabilities);
 
         // Set your access credentials
-        mutableCapabilities.setCapability("browserstack.user", browserstackConfig.login());
-        mutableCapabilities.setCapability("browserstack.key", browserstackConfig.password());
+        mutableCapabilities.setCapability("browserstack.user", config.login());
+        mutableCapabilities.setCapability("browserstack.key", config.password());
 
         // Set URL of the application under test
         mutableCapabilities.setCapability("app", browserstackConfig.appUrl());
@@ -54,6 +57,7 @@ public class BrowserstackDriver implements WebDriverProvider {
         // and desired mutableCapabilities defined above
         return new RemoteWebDriver(getBrowserstackUrl(), mutableCapabilities);
     }
+
     public static URL getBrowserstackUrl() {
         try {
             return new URL(browserstackConfig.baseUrl());

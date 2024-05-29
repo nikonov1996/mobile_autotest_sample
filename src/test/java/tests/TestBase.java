@@ -3,6 +3,7 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import config.BrowserstackConfig;
 import config.Config;
 import drivers.BrowserstackDriver;
 import drivers.EmulatorDriver;
@@ -46,7 +47,7 @@ public class TestBase {
         closeWebDriver();
 
         if (List.of("android", "ios").contains(config.env().toLowerCase())) {
-            Attach.addVideo(sessionId);
+            Attach.addVideo( sessionId );
         }
     }
 
